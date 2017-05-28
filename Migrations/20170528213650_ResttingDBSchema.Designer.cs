@@ -5,16 +5,17 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using vidly.Data;
 
-namespace vidly.Data.Migrations
+namespace vidly.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170527185750_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20170528213650_ResttingDBSchema")]
+    partial class ResttingDBSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.3");
+                .HasAnnotation("ProductVersion", "1.0.3")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
@@ -172,6 +173,42 @@ namespace vidly.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("vidly.Models.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsSubscribedToNewsletter");
+
+                    b.Property<byte>("MembershipTypeId");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MembershipTypeId");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("vidly.Models.MembershipType", b =>
+                {
+                    b.Property<byte>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<byte>("DiscountRate");
+
+                    b.Property<byte>("DurationInMonths");
+
+                    b.Property<short>("SignUpFee");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MembershipTypes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
@@ -206,6 +243,14 @@ namespace vidly.Data.Migrations
                     b.HasOne("vidly.Models.ApplicationUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("vidly.Models.Customer", b =>
+                {
+                    b.HasOne("vidly.Models.MembershipType", "MembershipType")
+                        .WithMany()
+                        .HasForeignKey("MembershipTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

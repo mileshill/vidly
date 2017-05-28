@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using vidly.Data;
 
-namespace vidly.Data.Migrations
+namespace vidly.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170527194036_PopulateMembershipTypes")]
-    partial class PopulateMembershipTypes
+    [Migration("20170528214827_PopulateCustomersAndMembershipTypes")]
+    partial class PopulateCustomersAndMembershipTypes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -206,7 +206,7 @@ namespace vidly.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MembershipType");
+                    b.ToTable("MembershipTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
