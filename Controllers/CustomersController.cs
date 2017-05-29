@@ -32,6 +32,7 @@ namespace vidly.Controllers
         {
             //TODO: Implement Realistic Implementation
             var customer = context.Customers
+              .Include(c => c.MembershipType)
               .SingleOrDefault(c => c.Id == id);
 
 
