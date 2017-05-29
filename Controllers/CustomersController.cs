@@ -42,5 +42,11 @@ namespace vidly.Controllers
             return View(customer);
         }
 
+        public IActionResult New()
+        {
+          //TODO: Implement Realistic Implementation
+          return View();
+        }
+
     }
 }
