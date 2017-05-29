@@ -44,8 +44,16 @@ namespace vidly.Controllers
 
         public IActionResult New()
         {
+          var membershipTypes = context.MembershipTypes.ToList();
+
+          var viewModel = new NewCustomerViewModel()
+          {
+            MembershipTypes = membershipTypes,
+          };
+
+
           //TODO: Implement Realistic Implementation
-          return View();
+          return View(viewModel);
         }
 
     }
