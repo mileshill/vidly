@@ -51,9 +51,17 @@ namespace vidly.Controllers
             MembershipTypes = membershipTypes,
           };
 
-
           //TODO: Implement Realistic Implementation
           return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Create(Customer customer)
+        {
+            context.Customers.Add(customer);
+            context.SaveChanges();
+            //TODO: Implement Realistic Implementation
+            return RedirectToAction("Index", "Customers");
         }
 
     }
