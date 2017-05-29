@@ -8,9 +8,9 @@
 <h2>@Model.Name</h2>
 
 <ul>
-    <li>@Model.MembershipType.Description</li>
+    <li>Membership Type: @Model.MembershipType.Description</li>
     @if(@Model.Birthdate.ToString("yyyy") != "0001")
     {
-        <li>@Model.Birthdate.ToString("yyyy/MM/dd")</li>
+        <li>Birthdate: @Model.Birthdate.ToString("yyyy/MM/dd")</li>
     }
 </ul>

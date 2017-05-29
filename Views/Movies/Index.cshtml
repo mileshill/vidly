@@ -19,6 +19,7 @@ else
     <thead>
         <tr>
             <th>Movie</th>
+            <th>Genre</th>
         </tr>
     </thead>  
     <tbody>
@@ -26,6 +27,7 @@ else
         {
             <tr>
                 <td><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Name</a></td>
+                <td>@movie.Genre</td>
             </tr>
         }       
     </tbody>

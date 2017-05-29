@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using vidly.Data;
 using vidly.Models;
 using vidly.ViewModels;
 
@@ -8,11 +9,18 @@ namespace vidly.Controllers
 {
     public class MoviesController : Controller
     {
+        private readonly ApplicationDbContext context;
+
+        public MoviesController(ApplicationDbContext context)
+        {
+            this.context = context;
+
+        }
         // GET: Movies
         public ViewResult Index()
         {
-          //TODO: Implement Realistic Implementation
-          var movies = GetMovies();
+            //TODO: Implement Realistic Implementation
+            var movies = context.Movies;
           return View(movies);
         }
 
@@ -20,24 +28,15 @@ namespace vidly.Controllers
         public IActionResult Details(int id)
         {
             //TODO: Implement Realistic Implementation
-            var movie = GetMovies()
+            var movie = context.Movies
                 .Where(m => m.Id == id)
                 .SingleOrDefault();
 
-            if(movie == null)
+            if (movie == null)
                 return NotFound("Movie not found");
 
             return View(movie);
         }
-        private IEnumerable<Movie> GetMovies()
-        {
-            return new List<Movie> {
-                new Movie() { Id = 1, Name = "Superman"},
-                new Movie() { Id = 2, Name = "There Will Be Blood"}
-            };
-        }
-       
-
     }
 
 }
