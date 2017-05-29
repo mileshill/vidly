@@ -46,22 +46,52 @@ namespace vidly.Controllers
         {
           var membershipTypes = context.MembershipTypes.ToList();
 
-          var viewModel = new NewCustomerViewModel()
+          var viewModel = new CustomerFormViewModel()
           {
             MembershipTypes = membershipTypes,
           };
 
           //TODO: Implement Realistic Implementation
-          return View(viewModel);
+          return View("CustomerForm", viewModel);
         }
 
         [HttpPost]
-        public IActionResult Create(Customer customer)
+        public IActionResult Save(Customer customer)
         {
-            context.Customers.Add(customer);
+            if (customer.Id == 0)
+            {   
+                // Handle new customers
+                context.Customers.Add(customer);
+            }
+            else
+            {
+                // Update exising customers
+                var customerInDb = context.Customers.Single(c => c.Id == customer.Id);
+                customerInDb.Name = customer.Name;
+                customerInDb.Birthdate = customer.Birthdate;
+                customerInDb.MembershipTypeId = customer.MembershipTypeId;
+                customerInDb.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
+            }
+
             context.SaveChanges();
-            //TODO: Implement Realistic Implementation
             return RedirectToAction("Index", "Customers");
+        }
+
+        public IActionResult Edit(int id)
+        {
+         var customer = context.Customers
+            .SingleOrDefault(c => c.Id == id);
+
+            if (customer == null)
+                return NotFound();
+
+            var viewModel = new CustomerFormViewModel()
+            { 
+                Customer = customer,
+                MembershipTypes = context.MembershipTypes.ToList()
+            
+            };    
+            return View("CustomerForm", viewModel);
         }
 
     }
