@@ -63,6 +63,8 @@ namespace vidly.Controllers
           return View("MovieForm", viewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Save(Movie movie)
         {
           if(movie.Id == 0)
