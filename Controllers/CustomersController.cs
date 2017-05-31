@@ -48,7 +48,8 @@ namespace vidly.Controllers
 
           var viewModel = new CustomerFormViewModel()
           {
-            MembershipTypes = membershipTypes,
+            Customer = new Customer(),
+            MembershipTypes = membershipTypes
           };
 
           //TODO: Implement Realistic Implementation
@@ -59,6 +60,7 @@ namespace vidly.Controllers
         public IActionResult Save(Customer customer)
         {
 
+            var mds = ModelState;
             // Validate input bing saved
             if(!ModelState.IsValid)
             {
