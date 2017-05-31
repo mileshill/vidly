@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -25,8 +26,10 @@ namespace vidly.Controllers
         }
 
 
-        public IActionResult Details(int id)
+        public IActionResult Edit(int? id)
         {
+
+            
             //TODO: Implement Realistic Implementation
             var movie = context.Movies
                 .Where(m => m.Id == id)
@@ -35,7 +38,50 @@ namespace vidly.Controllers
             if (movie == null)
                 return NotFound("Movie not found");
 
-            return View(movie);
+            var viewModel = new MovieFormViewModel()
+            {
+                Genres = context.Movies.Select(m => m.Genre).Distinct().ToList(),
+                Movie = movie
+
+            };
+            return View("MovieForm", viewModel);
+        }
+
+        public IActionResult New()
+        {
+          var genres = context.Movies
+            .Select(m => m.Genre)
+            .Distinct()
+            .ToList();
+
+          var viewModel = new MovieFormViewModel()
+          {
+            Genres = genres
+          };
+
+          //TODO: Implement Realistic Implementation
+          return View("MovieForm", viewModel);
+        }
+
+        public IActionResult Save(Movie movie)
+        {
+          if(movie.Id == 0)
+          {
+              movie.Added = DateTime.Now;
+              context.Movies.Add(movie);
+          }
+          else
+          {
+            var movieInDb = context.Movies.Single(m => m.Id == movie.Id);
+            movieInDb.Name = movie.Name;
+            movieInDb.Genre = movie.Genre;
+            movieInDb.ReleaseDate = movie.ReleaseDate;
+            movieInDb.Added = movie.Added;
+            movieInDb.NumberInStock = movie.NumberInStock;
+          }
+          context.SaveChanges();
+          
+          return RedirectToAction("Index", "Movies");
         }
     }
 

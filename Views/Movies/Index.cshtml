@@ -8,6 +8,7 @@
 
 <h2>Movies</h2>
 
+<a class="btn btn-primary" style="margin-bottom:0.5em;" asp-controller="Movies" asp-action="New">NEW MOVIE</a>
 
 @if(!Model.Any())
 {
@@ -26,7 +27,7 @@ else
         @foreach (var movie in Model)
         {
             <tr>
-                <td><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Name</a></td>
+                <td><a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id">@movie.Name</a></td>
                 <td>@movie.Genre</td>
             </tr>
         }       

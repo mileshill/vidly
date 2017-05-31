@@ -14,6 +14,7 @@ namespace vidly.Models
 
         [Required]
         [DataType(DataType.DateTime)]
+        [Display(Name = "Release Date")]
         public DateTime ReleaseDate { get; set; }
         
         [Required]
@@ -21,6 +22,7 @@ namespace vidly.Models
         public DateTime Added {get; set; }
         
         [Required]
+        [Display(Name = "Number In Stock")]
         public int NumberInStock {get; set;}
         
     }
