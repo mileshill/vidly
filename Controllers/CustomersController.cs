@@ -58,21 +58,33 @@ namespace vidly.Controllers
         [HttpPost]
         public IActionResult Save(Customer customer)
         {
+
+            // Validate input bing saved
+            if(!ModelState.IsValid)
+            {
+                var viewModel = new CustomerFormViewModel()
+                {
+                    Customer = customer,
+                    MembershipTypes = context.MembershipTypes.ToList()
+                };
+                return View("CustomerForm", viewModel);
+            }
+
+            // Add new customer
             if (customer.Id == 0)
             {   
-                // Handle new customers
                 context.Customers.Add(customer);
             }
+            // Update existing customers
             else
             {
-                // Update exising customers
                 var customerInDb = context.Customers.Single(c => c.Id == customer.Id);
                 customerInDb.Name = customer.Name;
                 customerInDb.Birthdate = customer.Birthdate;
                 customerInDb.MembershipTypeId = customer.MembershipTypeId;
                 customerInDb.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
             }
-
+            // Commit to Database
             context.SaveChanges();
             return RedirectToAction("Index", "Customers");
         }
