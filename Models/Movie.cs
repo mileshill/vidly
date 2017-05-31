@@ -7,12 +7,13 @@ namespace vidly.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter movie title")]
         public string Name { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Please select genre")]
         public string Genre { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter release date")]
         [DataType(DataType.DateTime)]
         [Display(Name = "Release Date")]
         public DateTime ReleaseDate { get; set; }
@@ -21,8 +22,10 @@ namespace vidly.Models
         [DataType(DataType.DateTime)]
         public DateTime Added {get; set; }
         
-        [Required]
+        [Required(ErrorMessage = "Please enter number in stock")]
         [Display(Name = "Number In Stock")]
+
+        [MoviesInStock]
         public int NumberInStock {get; set;}
         
     }

@@ -56,7 +56,8 @@ namespace vidly.Controllers
 
           var viewModel = new MovieFormViewModel()
           {
-            Genres = genres
+            Genres = genres,
+            Movie = new Movie()
           };
 
           //TODO: Implement Realistic Implementation
@@ -67,6 +68,16 @@ namespace vidly.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Save(Movie movie)
         {
+            if(!ModelState.IsValid)
+            {
+                var viewModel = new MovieFormViewModel()
+                {
+                    Movie = movie,
+                    Genres = context.Movies.Select(m => m.Genre).Distinct().ToList()
+                };
+                return View("MovieForm", viewModel);
+            }
+
           if(movie.Id == 0)
           {
               movie.Added = DateTime.Now;
