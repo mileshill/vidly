@@ -61,7 +61,7 @@ namespace vidly.Controllers
         public IActionResult Save(Customer customer)
         {
 
-            var mds = ModelState;
+          
             
             // Validate input bing saved
             if(!ModelState.IsValid)

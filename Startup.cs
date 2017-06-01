@@ -76,8 +76,13 @@ namespace vidly
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
-
+            app.UseMvc(routes => {
+                 routes.MapRoute(
+                    name:"api",
+                    template:"API/{controller=Customers}/{action=GetCustomers}/{id?}");
+            });
             
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
