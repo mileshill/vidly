@@ -43,19 +43,22 @@ else
 {
     <script>
         $(document).ready( function () {
-            $("#customers .js-delete")
-                .on("click", function(){
+            $("#customers")
+                .on("click", ".js-delete", function(){
                     var button = $(this);
-                    var confirmedDelete = confirm("Delete this customer?");
-                    if (confirmedDelete){
-                        $.ajax({
+
+                    bootbox.confirm("Delete this customer?", function(result){
+                        if(result){
+                            $.ajax({
                             url: "/api/customers/" + button.attr("data-customer-id"),
                             method: "DELETE",
                             success: function() {
                                 button.parents("tr").remove();
                             }
-                        })
-                    }
+                        });
+                        }
+                    });
+
                 })
         });
     </script>

@@ -13,6 +13,7 @@
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
       "wwwroot/lib/bootstrap/dist/js/bootstrap.js",
+      "wwwroot/lib/bootbox.js/bootbox.js",
       "wwwroot/lib/jquery-validation/dist/jquery.validate.js",
       "wwwroot/js/site.js"
     ],
