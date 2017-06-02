@@ -21,8 +21,8 @@ namespace vidly.Controllers
         public ViewResult Index()
         {
             //TODO: Implement Realistic Implementation
-            var movies = context.Movies;
-          return View(movies);
+            //var movies = context.Movies;
+          return View();
         }
 
 
