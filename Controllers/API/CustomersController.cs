@@ -34,42 +34,46 @@ namespace vidly.Controllers.API
 
     [Route("{id:int}")]
     [HttpGet]
-    public IActionResult GetCustomer(int id)
+    public async Task<IActionResult> GetCustomer(int id)
     {
       // var customer = await context.Customers
       //     .SingleOrDefault(c => c.Id == id);
 
-      var customer = context.Customers
+      var customer = await context.Customers
           .Include(m => m.MembershipType)
-          .SingleOrDefault(c => c.Id == id);
+          .SingleOrDefaultAsync(c => c.Id == id);
 
 
       if (customer == null)
         return NotFound();
 
-      return Ok(customer);
+      
+      return Ok(mapper.Map<Customer, CustomerDto>(customer));
     }
 
 
     [HttpPost]
-    public async Task<IActionResult> NewCustomer([FromBody] Customer customer)
+    public async Task<IActionResult> NewCustomer([FromBody] CustomerDto customerDto)
     {
       if (!ModelState.IsValid)
         return BadRequest();
+
+      var customer = mapper.Map<CustomerDto, Customer>(customerDto);
 
       context.Customers.Add(customer);
       context.SaveChanges();
 
-      var customerInDb = await context.Customers.SingleOrDefaultAsync(c => c.Name == customer.Name);
-      return Ok(customerInDb);
+      customerDto.Id = customer.Id;
+      return Ok(customerDto);
     }
 
     [Route("{id:int}")]
     [HttpPut]
-    public async Task<IActionResult> UpdateCustomer(int id, [FromBody] Customer customer)
+    public async Task<IActionResult> UpdateCustomer(int id, [FromBody] CustomerDto customerDto)
     {
       if (!ModelState.IsValid)
         return BadRequest();
+
 
       var customerInDb = await context.Customers
           .SingleOrDefaultAsync(c => c.Id == id);
@@ -78,14 +82,11 @@ namespace vidly.Controllers.API
         return NotFound();
 
 
-      customerInDb.Name = customer.Name;
-      customerInDb.Birthdate = customer.Birthdate;
-      customerInDb.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
-      customerInDb.MembershipTypeId = customer.MembershipTypeId;
+      mapper.Map<CustomerDto, Customer>(customerDto, customerInDb);
 
       context.SaveChanges();
 
-      return Ok(customer);
+      return Ok(customerDto);
     }
 
     [Route("{id:int}")]

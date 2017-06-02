@@ -85,6 +85,12 @@ namespace vidly
                     name:"api",
                     template:"API/{controller=Customers}/{action=GetCustomers}/{id?}");
             });
+
+            app.UseMvc(routes => {
+                 routes.MapRoute(
+                    name:"api",
+                    template:"API/{controller=Movies}/{action=GetMovies}/{id?}");
+            });
             
 
             app.UseMvc(routes =>

@@ -14,9 +14,10 @@ namespace vidly.Models
 
         [DataType(DataType.DateTime)]
         [Display(Name = "Date of Birth")]
-        [Min18YearsIfAMember]
         public DateTime? Birthdate { get; set; }
-
+        
+        
+        [Min18YearsIfAMember]
         public MembershipType MembershipType { get; set; }
 
         [Display(Name = "Membership Type")]
