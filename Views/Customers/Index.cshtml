@@ -15,11 +15,12 @@
 }
 else
 {
-<table class="table table-hover table-bordered">
+<table class="table table-hover table-bordered" id="customers">
     <thead>
         <tr>
             <th>Customer</th>
             <th>Membership</th>
+            <th>Delete</th>
         </tr>
     </thead>  
     <tbody>
@@ -28,9 +29,34 @@ else
             <tr>
                 <td><a asp-controller="Customers" asp-action="Edit" asp-route-id="@customer.Id">@customer.Name</a></td>
                 <td>@customer.MembershipType.Description</td>
+                <td>
+                    <button data-customer-id="@customer.Id" class="btn-link js-delete">Delete</button>
+                </td>
                 
             </tr>
         }       
     </tbody>
 </table>
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready( function () {
+            $("#customers .js-delete")
+                .on("click", function(){
+                    var button = $(this);
+                    var confirmedDelete = confirm("Delete this customer?");
+                    if (confirmedDelete){
+                        $.ajax({
+                            url: "/api/customers/" + button.attr("data-customer-id"),
+                            method: "DELETE",
+                            success: function() {
+                                button.parents("tr").remove();
+                            }
+                        })
+                    }
+                })
+        });
+    </script>
 }
