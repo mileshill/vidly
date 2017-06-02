@@ -12,11 +12,16 @@ namespace vidly.Mapping
             // Domain to API
             CreateMap<Customer,CustomerDto>(); 
             CreateMap<Movie, MovieDto>();
+            CreateMap<MembershipType, MembershipTypeDto>();
 
             // API to Domain
-            CreateMap<CustomerDto, Customer>(); 
+            CreateMap<CustomerDto, Customer>()
+                .ForMember(c => c.Id, opt => opt.Ignore()); 
+
             CreateMap<MovieDto, Movie>()
                 .ForMember(m => m.Id, opt => opt.Ignore());
+            
+            CreateMap<MembershipTypeDto, MembershipType>();
         }
     }
 }

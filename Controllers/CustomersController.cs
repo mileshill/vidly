@@ -19,12 +19,12 @@ namespace vidly.Controllers
         }
         public ViewResult Index()
         {
-            var customers = context.Customers
-                .Include(c => c.MembershipType)
-                .ToList();
+            // var customers = context.Customers
+            //     .Include(c => c.MembershipType)
+            //     .ToList();
 
             //var customers = GetCustomers();
-            return View(customers);
+            return View();
         }
 
 
